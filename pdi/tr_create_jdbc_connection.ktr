@@ -147,11 +147,14 @@
     </notepad>
   </notepads>
   <order>
-  <hop> <from>body for request</from><to>Set jdbc connection</to><enabled>Y</enabled> </hop>
+  <hop> <from>body, url</from><to>Set jdbc connection</to><enabled>Y</enabled> </hop>
   <hop> <from>Set jdbc connection</from><to>result &#x3d; 200</to><enabled>Y</enabled> </hop>
   <hop> <from>result &#x3d; 200</from><to>Error setJDBCConnection</to><enabled>Y</enabled> </hop>
   <hop> <from>result &#x3d; 200</from><to>Succes</to><enabled>Y</enabled> </hop>
-  <hop> <from>Kickstart</from><to>body for request</to><enabled>Y</enabled> </hop>
+  <hop> <from>Read JDBC properties</from><to>Get Conn</to><enabled>Y</enabled> </hop>
+  <hop> <from>Get Conn</from><to>sort connName, Key</to><enabled>Y</enabled> </hop>
+  <hop> <from>sort connName, Key</from><to>Get Conn Fields</to><enabled>Y</enabled> </hop>
+  <hop> <from>Get Conn Fields</from><to>body, url</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Error setJDBCConnection</name>
@@ -169,8 +172,232 @@
       <always_log_rows>Y</always_log_rows>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1040</xloc>
-      <yloc>240</yloc>
+      <xloc>1730</xloc>
+      <yloc>256</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Get Conn</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xa;&#xa;var connName &#x3d; substr&#x28;Key, 0, indexOf&#x28;Key, &#x27;.&#x27;, &#x27;&#x27;&#x29;&#x29;&#x3b;&#xa;var Key &#x3d; substr&#x28;Key, indexOf&#x28;Key, &#x27;.&#x27;, &#x27;&#x27;&#x29;&#x2b;1&#x29;&#x3b;</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>connName</name>
+        <rename>connName</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>Key</name>
+        <rename>Key</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>385</xloc>
+      <yloc>160</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Get Conn Fields</name>
+    <type>Denormaliser</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <key_field>Key</key_field>
+      <group>
+        <field>
+          <name>connName</name>
+          </field>
+        </group>
+      <fields>
+        <field>
+          <field_name>Value</field_name>
+          <key_value>db.dbnm</key_value>
+          <target_name>dbnm</target_name>
+          <target_type>String</target_type>
+          <target_format/>
+          <target_length>-1</target_length>
+          <target_precision>-1</target_precision>
+          <target_decimal_symbol/>
+          <target_grouping_symbol/>
+          <target_currency_symbol/>
+          <target_null_string/>
+          <target_aggregation_type>-</target_aggregation_type>
+          </field>
+        <field>
+          <field_name>Value</field_name>
+          <key_value>db.user</key_value>
+          <target_name>user</target_name>
+          <target_type>String</target_type>
+          <target_format/>
+          <target_length>-1</target_length>
+          <target_precision>-1</target_precision>
+          <target_decimal_symbol/>
+          <target_grouping_symbol/>
+          <target_currency_symbol/>
+          <target_null_string/>
+          <target_aggregation_type>-</target_aggregation_type>
+          </field>
+        <field>
+          <field_name>Value</field_name>
+          <key_value>db.port</key_value>
+          <target_name>port</target_name>
+          <target_type>Integer</target_type>
+          <target_format/>
+          <target_length>-1</target_length>
+          <target_precision>-1</target_precision>
+          <target_decimal_symbol/>
+          <target_grouping_symbol/>
+          <target_currency_symbol/>
+          <target_null_string/>
+          <target_aggregation_type>-</target_aggregation_type>
+          </field>
+        <field>
+          <field_name>Value</field_name>
+          <key_value>db.type</key_value>
+          <target_name>type</target_name>
+          <target_type>String</target_type>
+          <target_format/>
+          <target_length>-1</target_length>
+          <target_precision>-1</target_precision>
+          <target_decimal_symbol/>
+          <target_grouping_symbol/>
+          <target_currency_symbol/>
+          <target_null_string/>
+          <target_aggregation_type>-</target_aggregation_type>
+          </field>
+        <field>
+          <field_name>Value</field_name>
+          <key_value>db.pass</key_value>
+          <target_name>pass</target_name>
+          <target_type>String</target_type>
+          <target_format/>
+          <target_length>-1</target_length>
+          <target_precision>-1</target_precision>
+          <target_decimal_symbol/>
+          <target_grouping_symbol/>
+          <target_currency_symbol/>
+          <target_null_string/>
+          <target_aggregation_type>-</target_aggregation_type>
+          </field>
+        <field>
+          <field_name>Value</field_name>
+          <key_value>db.host</key_value>
+          <target_name>host</target_name>
+          <target_type>String</target_type>
+          <target_format/>
+          <target_length>-1</target_length>
+          <target_precision>-1</target_precision>
+          <target_decimal_symbol/>
+          <target_grouping_symbol/>
+          <target_currency_symbol/>
+          <target_null_string/>
+          <target_aggregation_type>-</target_aggregation_type>
+          </field>
+        </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>923</xloc>
+      <yloc>160</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Read JDBC properties</name>
+    <type>PropertyInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <file_type>property</file_type>
+    <encoding>UTF-8</encoding>
+    <include>N</include>
+    <include_field/>
+    <filename_Field/>
+    <rownum>N</rownum>
+    <isaddresult>Y</isaddresult>
+    <filefield>N</filefield>
+    <rownum_field/>
+    <resetrownumber>N</resetrownumber>
+    <resolvevaluevariable>N</resolvevaluevariable>
+    <ini_section>N</ini_section>
+    <ini_section_field/>
+    <section/>
+    <file>
+      <name>&#x24;&#x7b;Internal.Transformation.Filename.Directory&#x7d;&#x2f;..&#x2f;metadata</name>
+      <exclude_filemask/>
+      <filemask>deploy.jdbc.properties</filemask>
+      <file_required>N</file_required>
+      <include_subfolders>N</include_subfolders>
+    </file>
+    <fields>
+      <field>
+        <name>Key</name>
+        <column>key</column>
+        <type>String</type>
+        <format/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <currency/>
+        <decimal/>
+        <group/>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>Value</name>
+        <column>value</column>
+        <type>String</type>
+        <format/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <currency/>
+        <decimal/>
+        <group/>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+    </fields>
+    <limit>0</limit>
+    <shortFileFieldName/>
+    <pathFieldName/>
+    <hiddenFieldName/>
+    <lastModificationTimeFieldName/>
+    <uriNameFieldName/>
+    <rootUriNameFieldName/>
+    <extensionFieldName/>
+    <sizeFieldName/>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>116</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -189,10 +416,10 @@
     <applicationType>JSON</applicationType>
     <method>PUT</method>
     <url>&#x24;&#x7b;pentaho.base.url&#x7d;&#x2f;plugin&#x2f;data-access&#x2f;api&#x2f;datasource&#x2f;jdbc&#x2f;connection&#x2f;&#x24;&#x7b;jdbc.db.conn&#x7d;</url>
-    <urlInField>N</urlInField>
+    <urlInField>Y</urlInField>
     <dynamicMethod>N</dynamicMethod>
     <methodFieldName/>
-    <urlField/>
+    <urlField>url</urlField>
     <bodyField>body</bodyField>
     <httpLogin>&#x24;&#x7b;pentaho.user&#x7d;</httpLogin>
     <httpPassword>&#x24;&#x7b;pentaho.pass&#x7d;</httpPassword>
@@ -214,8 +441,8 @@
       </result>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>752</xloc>
-      <yloc>144</yloc>
+      <xloc>1461</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -233,14 +460,14 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1280</xloc>
-      <yloc>144</yloc>
+      <xloc>1999</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>body for request</name>
+    <name>body, url</name>
     <type>ScriptValueMod</type>
     <description/>
     <distribute>Y</distribute>
@@ -254,17 +481,23 @@
     <optimizationLevel>9</optimizationLevel>
     <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#x2f;&#x2f;Script here&#xa;&#xa;var body &#x3d; &#x27;&#x7b; &#x22;changed&#x22;&#x3a; true,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;usingConnectionPool&#x22;&#x3a; true,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;connectSql&#x22;&#x3a; &#x22;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;databaseName&#x22;&#x3a; &#x22;&#x27; &#x2b; getVariable&#x28;&#x27;jdbc.db.type&#x27;, &#x27;&#x27;&#x29; &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;databasePort&#x22;&#x3a; &#x22;&#x27; &#x2b; getVariable&#x28;&#x27;jdbc.db.port&#x27;, &#x27;&#x27;&#x29; &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;hostname&#x22;&#x3a; &#x22;&#x27; &#x2b; getVariable&#x28;&#x27;jdbc.db.host&#x27;, &#x27;&#x27;&#x29; &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;name&#x22;&#x3a; &#x22;&#x27; &#x2b; getVariable&#x28;&#x27;jdbc.db.conn&#x27;, &#x27;&#x27;&#x29; &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;password&#x22;&#x3a; &#x22;&#x27; &#x2b; getVariable&#x28;&#x27;jdbc.db.pass&#x27;, &#x27;&#x27;&#x29; &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;username&#x22;&#x3a; &#x22;&#x27; &#x2b; getVariable&#x28;&#x27;jdbc.db.user&#x27;, &#x27;&#x27;&#x29; &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;attributes&#x22;&#x3a; &#x7b;&#x7d;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;connectionPoolingProperties&#x22;&#x3a; &#x7b;&#x7d;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;extraOptions&#x22;&#x3a; &#x7b;&#x7d;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;accessType&#x22;&#x3a; &#x22;NATIVE&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;databaseType&#x22;&#x3a; &#x7b;&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;defaultDatabasePort&#x22;&#x3a; &#x27; &#x2b; getVariable&#x28;&#x27;jdbc.db.port&#x27;, &#x27;&#x27;&#x29; &#x2b; &#x27;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;extraOptionsHelpUrl&#x22;&#x3a; &#x22;http&#x3a;&#x2f;&#x2f;hsqldb.sourceforge.net&#x2f;doc&#x2f;guide&#x2f;ch04.html&#x23;N109DA&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;name&#x22;&#x3a; &#x22;&#x27; &#x2b; getVariable&#x28;&#x27;jdbc.db.conn&#x27;, &#x27;&#x27;&#x29; &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;shortName&#x22;&#x3a; &#x22;&#x27; &#x2b; upper&#x28;getVariable&#x28;&#x27;jdbc.db.conn&#x27;, &#x27;&#x27;&#x29;&#x29; &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;supportedAccessTypes&#x22;&#x3a; &#x5b;&#x22;NATIVE&#x22;,&#x22;ODBC&#x22;,&#x22;JNDI&#x22;&#x5d;&#x7d;&#x7d;&#x27;&#x3b;</jsScript_script>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xa;&#xa;var body &#x3d; &#x27;&#x7b; &#x22;changed&#x22;&#x3a; true,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;usingConnectionPool&#x22;&#x3a; true,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;connectSql&#x22;&#x3a; &#x22;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;databaseName&#x22;&#x3a; &#x22;&#x27; &#x2b; dbnm &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;databasePort&#x22;&#x3a; &#x22;&#x27; &#x2b; port &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;hostname&#x22;&#x3a; &#x22;&#x27; &#x2b; host &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;name&#x22;&#x3a; &#x22;&#x27; &#x2b; connName &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;password&#x22;&#x3a; &#x22;&#x27; &#x2b; pass &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;username&#x22;&#x3a; &#x22;&#x27; &#x2b; user &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;attributes&#x22;&#x3a; &#x7b;&#x7d;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;connectionPoolingProperties&#x22;&#x3a; &#x7b;&#x7d;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;extraOptions&#x22;&#x3a; &#x7b;&#x7d;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;accessType&#x22;&#x3a; &#x22;NATIVE&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;databaseType&#x22;&#x3a; &#x7b;&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;defaultDatabasePort&#x22;&#x3a; &#x27; &#x2b; port &#x2b; &#x27;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;extraOptionsHelpUrl&#x22;&#x3a; &#x22;http&#x3a;&#x2f;&#x2f;hsqldb.sourceforge.net&#x2f;doc&#x2f;guide&#x2f;ch04.html&#x23;N109DA&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;name&#x22;&#x3a; &#x22;&#x27; &#x2b; connName &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;shortName&#x22;&#x3a; &#x22;&#x27; &#x2b; upper&#x28;connName&#x29; &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;supportedAccessTypes&#x22;&#x3a; &#x5b;&#x22;NATIVE&#x22;,&#x22;ODBC&#x22;,&#x22;JNDI&#x22;&#x5d;&#x7d;&#x7d;&#x27;&#x3b;&#xa;&#xa;var url &#x3d; getVariable&#x28;&#x27;pentaho.base.url&#x27;, &#x27;&#x27;&#x29; &#x2b; &#x27;&#x2f;plugin&#x2f;data-access&#x2f;api&#x2f;datasource&#x2f;jdbc&#x2f;connection&#x2f;&#x27; &#x2b; connName&#x3b;</jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>body</name>
         <rename>body</rename>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
+      </field>      <field>        <name>url</name>
+        <rename>url</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
       </field>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>432</xloc>
-      <yloc>144</yloc>
+      <xloc>1192</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -292,15 +525,15 @@
     </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1040</xloc>
-      <yloc>144</yloc>
+      <xloc>1730</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Kickstart</name>
-    <type>RowGenerator</type>
+    <name>sort connName, Key</name>
+    <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -309,17 +542,31 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+      <prefix>out</prefix>
+      <sort_size>1000000</sort_size>
+      <free_memory/>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
     <fields>
+      <field>
+        <name>connName</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>Key</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
+      </field>
     </fields>
-    <limit>1</limit>
-    <never_ending>N</never_ending>
-    <interval_in_ms>5000</interval_in_ms>
-    <row_time_field>now</row_time_field>
-    <last_time_field>FiveSecondsAgo</last_time_field>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>144</xloc>
-      <yloc>144</yloc>
+      <xloc>654</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
