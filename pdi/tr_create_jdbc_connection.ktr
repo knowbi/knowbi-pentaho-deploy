@@ -45,6 +45,11 @@
             <description/>
         </parameter>
         <parameter>
+            <name>PRM_ENV</name>
+            <default_value>PRD</default_value>
+            <description>The chosen environment to run the deploy job on. Available options are dev, uat.</description>
+        </parameter>
+        <parameter>
             <name>PRM_PANTAHOSERVER</name>
             <default_value>http&#x3a;&#x2f;&#x2f;localhost&#x3a;7080&#x2f;pentaho</default_value>
             <description/>
@@ -113,8 +118,24 @@
     <partitionschemas>
     </partitionschemas>
     <slaveservers>
+         <slaveserver><name>slave 2</name><hostname>172.18.37.192</hostname><port>8082</port><webAppName/><username>cluster</username><password>Encrypted 2be98afc86aa7f2e4cb1aa265cd86aac8</password><proxy_hostname/><proxy_port/><non_proxy_hosts/><master>N</master><sslMode>N</sslMode></slaveserver>
+         <slaveserver><name>slave 1</name><hostname>172.18.37.192</hostname><port>8081</port><webAppName/><username>cluster</username><password>Encrypted 2be98afc86aa7f2e4cb1aa265cd86aac8</password><proxy_hostname/><proxy_port/><non_proxy_hosts/><master>N</master><sslMode>N</sslMode></slaveserver>
+         <slaveserver><name>local cart</name><hostname>172.18.37.176</hostname><port>8080</port><webAppName/><username>cluster</username><password>Encrypted 2be98afc86aa7f2e4cb1aa265cd86aac8</password><proxy_hostname/><proxy_port/><non_proxy_hosts/><master>Y</master><sslMode>N</sslMode></slaveserver>
     </slaveservers>
     <clusterschemas>
+        <clusterschema>
+          <name>cluster schema</name>
+          <base_port>40000</base_port>
+          <sockets_buffer_size>2000</sockets_buffer_size>
+          <sockets_flush_interval>5000</sockets_flush_interval>
+          <sockets_compressed>Y</sockets_compressed>
+          <dynamic>N</dynamic>
+          <slaveservers>
+            <name>local cart</name>
+            <name>slave 1</name>
+            <name>slave 2</name>
+          </slaveservers>
+        </clusterschema>
     </clusterschemas>
   <created_user>-</created_user>
   <created_date>2015&#x2f;09&#x2f;18 09&#x3a;39&#x3a;52.384</created_date>
@@ -126,8 +147,8 @@
   <notepads>
     <notepad>
       <note>setJdbcConnection&#xa;-------------------------&#xa;REST api call to add&#x2f;edit JDBC connection</note>
-      <xloc>160</xloc>
-      <yloc>544</yloc>
+      <xloc>96</xloc>
+      <yloc>224</yloc>
       <width>390</width>
       <heigth>85</heigth>
       <fontname>Droid Sans</fontname>
@@ -147,14 +168,16 @@
     </notepad>
   </notepads>
   <order>
-  <hop> <from>body, url</from><to>Set jdbc connection</to><enabled>Y</enabled> </hop>
-  <hop> <from>Set jdbc connection</from><to>result &#x3d; 200</to><enabled>Y</enabled> </hop>
   <hop> <from>result &#x3d; 200</from><to>Error setJDBCConnection</to><enabled>Y</enabled> </hop>
   <hop> <from>result &#x3d; 200</from><to>Succes</to><enabled>Y</enabled> </hop>
   <hop> <from>Read JDBC properties</from><to>Get Conn</to><enabled>Y</enabled> </hop>
   <hop> <from>Get Conn</from><to>sort connName, Key</to><enabled>Y</enabled> </hop>
   <hop> <from>sort connName, Key</from><to>Get Conn Fields</to><enabled>Y</enabled> </hop>
   <hop> <from>Get Conn Fields</from><to>body, url</to><enabled>Y</enabled> </hop>
+  <hop> <from>Set jdbc connection</from><to>Write to log</to><enabled>Y</enabled> </hop>
+  <hop> <from>Write to log</from><to>result &#x3d; 200</to><enabled>Y</enabled> </hop>
+  <hop> <from>body, url</from><to>Remove Connection</to><enabled>Y</enabled> </hop>
+  <hop> <from>Remove Connection</from><to>Set jdbc connection</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Error setJDBCConnection</name>
@@ -172,8 +195,8 @@
       <always_log_rows>Y</always_log_rows>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1730</xloc>
-      <yloc>256</yloc>
+      <xloc>1184</xloc>
+      <yloc>208</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -208,8 +231,8 @@
         <replace>Y</replace>
       </field>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>385</xloc>
-      <yloc>160</yloc>
+      <xloc>234</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -319,8 +342,8 @@
         </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>923</xloc>
-      <yloc>160</yloc>
+      <xloc>478</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -353,7 +376,7 @@
     <file>
       <name>&#x24;&#x7b;Internal.Transformation.Filename.Directory&#x7d;&#x2f;..&#x2f;metadata</name>
       <exclude_filemask/>
-      <filemask>deploy.jdbc.properties</filemask>
+      <filemask>deploy.jdbc.&#x24;&#x7b;PRM_ENV&#x7d;.properties</filemask>
       <file_required>N</file_required>
       <include_subfolders>N</include_subfolders>
     </file>
@@ -396,8 +419,53 @@
     <sizeFieldName/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>116</xloc>
-      <yloc>160</yloc>
+      <xloc>112</xloc>
+      <yloc>96</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Remove Connection</name>
+    <type>Rest</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <applicationType>JSON</applicationType>
+    <method>DELETE</method>
+    <url>&#x24;&#x7b;pentaho.base.url&#x7d;&#x2f;plugin&#x2f;data-access&#x2f;api&#x2f;datasource&#x2f;jdbc&#x2f;connection&#x2f;&#x24;&#x7b;jdbc.db.conn&#x7d;</url>
+    <urlInField>Y</urlInField>
+    <dynamicMethod>N</dynamicMethod>
+    <methodFieldName/>
+    <urlField>RemoveURL</urlField>
+    <bodyField/>
+    <httpLogin>&#x24;&#x7b;pentaho.user&#x7d;</httpLogin>
+    <httpPassword>&#x24;&#x7b;pentaho.pass&#x7d;</httpPassword>
+    <proxyHost/>
+    <proxyPort/>
+    <preemptive>N</preemptive>
+    <trustStoreFile/>
+    <trustStorePassword>Encrypted </trustStorePassword>
+    <headers>
+      </headers>
+    <parameters>
+      </parameters>
+    <matrixParameters>
+      </matrixParameters>
+    <result>
+      <name/>
+      <code>result2</code>
+      <response_time/>
+      </result>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>752</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -441,8 +509,8 @@
       </result>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1461</xloc>
-      <yloc>160</yloc>
+      <xloc>928</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -460,8 +528,64 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1999</xloc>
-      <yloc>160</yloc>
+      <xloc>1296</xloc>
+      <yloc>96</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Write to log</name>
+    <type>WriteToLog</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <loglevel>log_level_basic</loglevel>
+      <displayHeader>Y</displayHeader>
+      <limitRows>N</limitRows>
+      <limitRowsNumber>0</limitRowsNumber>
+      <logmessage>LOG_RESULT&#xd;&#xa;----------</logmessage>
+    <fields>
+      <field>
+        <name>connName</name>
+        </field>
+      <field>
+        <name>dbnm</name>
+        </field>
+      <field>
+        <name>user</name>
+        </field>
+      <field>
+        <name>port</name>
+        </field>
+      <field>
+        <name>type</name>
+        </field>
+      <field>
+        <name>pass</name>
+        </field>
+      <field>
+        <name>host</name>
+        </field>
+      <field>
+        <name>body</name>
+        </field>
+      <field>
+        <name>url</name>
+        </field>
+      <field>
+        <name>result</name>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1040</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -481,7 +605,7 @@
     <optimizationLevel>9</optimizationLevel>
     <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#x2f;&#x2f;Script here&#xa;&#xa;var body &#x3d; &#x27;&#x7b; &#x22;changed&#x22;&#x3a; true,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;usingConnectionPool&#x22;&#x3a; true,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;connectSql&#x22;&#x3a; &#x22;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;databaseName&#x22;&#x3a; &#x22;&#x27; &#x2b; dbnm &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;databasePort&#x22;&#x3a; &#x22;&#x27; &#x2b; port &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;hostname&#x22;&#x3a; &#x22;&#x27; &#x2b; host &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;name&#x22;&#x3a; &#x22;&#x27; &#x2b; connName &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;password&#x22;&#x3a; &#x22;&#x27; &#x2b; pass &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;username&#x22;&#x3a; &#x22;&#x27; &#x2b; user &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;attributes&#x22;&#x3a; &#x7b;&#x7d;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;connectionPoolingProperties&#x22;&#x3a; &#x7b;&#x7d;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;extraOptions&#x22;&#x3a; &#x7b;&#x7d;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;accessType&#x22;&#x3a; &#x22;NATIVE&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;databaseType&#x22;&#x3a; &#x7b;&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;defaultDatabasePort&#x22;&#x3a; &#x27; &#x2b; port &#x2b; &#x27;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;extraOptionsHelpUrl&#x22;&#x3a; &#x22;http&#x3a;&#x2f;&#x2f;hsqldb.sourceforge.net&#x2f;doc&#x2f;guide&#x2f;ch04.html&#x23;N109DA&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;name&#x22;&#x3a; &#x22;&#x27; &#x2b; connName &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;shortName&#x22;&#x3a; &#x22;&#x27; &#x2b; upper&#x28;connName&#x29; &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;supportedAccessTypes&#x22;&#x3a; &#x5b;&#x22;NATIVE&#x22;,&#x22;ODBC&#x22;,&#x22;JNDI&#x22;&#x5d;&#x7d;&#x7d;&#x27;&#x3b;&#xa;&#xa;var url &#x3d; getVariable&#x28;&#x27;pentaho.base.url&#x27;, &#x27;&#x27;&#x29; &#x2b; &#x27;&#x2f;plugin&#x2f;data-access&#x2f;api&#x2f;datasource&#x2f;jdbc&#x2f;connection&#x2f;&#x27; &#x2b; connName&#x3b;</jsScript_script>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xa;&#xa;var body &#x3d; &#x27;&#x7b; &#x22;changed&#x22;&#x3a; true,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;usingConnectionPool&#x22;&#x3a; true,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;connectSql&#x22;&#x3a; &#x22;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;databaseName&#x22;&#x3a; &#x22;&#x27; &#x2b; dbnm &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;databasePort&#x22;&#x3a; &#x22;&#x27; &#x2b; port &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;hostname&#x22;&#x3a; &#x22;&#x27; &#x2b; host &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;name&#x22;&#x3a; &#x22;&#x27; &#x2b; connName &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;password&#x22;&#x3a; &#x22;&#x27; &#x2b; pass &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;username&#x22;&#x3a; &#x22;&#x27; &#x2b; user &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;attributes&#x22;&#x3a; &#x7b;&#x7d;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;connectionPoolingProperties&#x22;&#x3a; &#x7b;&#x7d;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;extraOptions&#x22;&#x3a; &#x7b;&#x7d;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;accessType&#x22;&#x3a; &#x22;NATIVE&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;databaseType&#x22;&#x3a; &#x7b;&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;defaultDatabasePort&#x22;&#x3a; &#x27; &#x2b; port &#x2b; &#x27;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;extraOptionsHelpUrl&#x22;&#x3a; &#x22;http&#x3a;&#x2f;&#x2f;hsqldb.sourceforge.net&#x2f;doc&#x2f;guide&#x2f;ch04.html&#x23;N109DA&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;name&#x22;&#x3a; &#x22;&#x27; &#x2b; type &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;shortName&#x22;&#x3a; &#x22;&#x27; &#x2b; upper&#x28;type&#x29; &#x2b; &#x27;&#x22;,&#x27;&#x3b;&#xa;body &#x2b;&#x3d; &#x27;&#x22;supportedAccessTypes&#x22;&#x3a; &#x5b;&#x22;NATIVE&#x22;,&#x22;ODBC&#x22;,&#x22;JNDI&#x22;&#x5d;&#x7d;&#x7d;&#x27;&#x3b;&#xa;&#xa;var url &#x3d; getVariable&#x28;&#x27;pentaho.base.url&#x27;, &#x27;&#x27;&#x29; &#x2b; &#x27;&#x2f;plugin&#x2f;data-access&#x2f;api&#x2f;datasource&#x2f;jdbc&#x2f;connection&#x2f;&#x27; &#x2b; connName&#x3b;&#xa;var RemoveURL &#x3d; getVariable&#x28;&#x27;pentaho.base.url&#x27;, &#x27;&#x27;&#x29; &#x2b; &#x27;&#x2f;plugin&#x2f;data-access&#x2f;api&#x2f;connection&#x2f;deletebyname&#x3f;name&#x3d;&#x27; &#x2b; connName&#x3b;</jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>body</name>
         <rename>body</rename>
         <type>String</type>
@@ -494,10 +618,16 @@
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
+      </field>      <field>        <name>RemoveURL</name>
+        <rename>RemoveURL</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
       </field>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1192</xloc>
-      <yloc>160</yloc>
+      <xloc>600</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -518,15 +648,20 @@
     <compare>
 <condition>
  <negated>N</negated>
- <leftvalue>result</leftvalue>
- <function>&#x3d;</function>
- <rightvalue/>
- <value><name>constant</name><type>Integer</type><text>200</text><length>-1</length><precision>0</precision><isnull>N</isnull><mask>&#x23;&#x3b;-&#x23;</mask></value> </condition>
+ <conditions>
+  <condition>
+   <negated>N</negated>
+   <leftvalue>result</leftvalue>
+   <function>&#x3d;</function>
+   <rightvalue/>
+   <value><name>constant</name><type>Integer</type><text>200</text><length>-1</length><precision>0</precision><isnull>N</isnull><mask>&#x23;&#x3b;-&#x23;</mask></value>   </condition>
+  </conditions>
+ </condition>
     </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1730</xloc>
-      <yloc>160</yloc>
+      <xloc>1168</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -565,8 +700,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>654</xloc>
-      <yloc>160</yloc>
+      <xloc>356</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
