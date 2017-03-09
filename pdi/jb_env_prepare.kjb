@@ -413,18 +413,6 @@
       <xloc>368</xloc>
       <yloc>112</yloc>
     </entry>
-    <entry>
-      <name>Create &#x24;&#x7b;pentaho.code.tmp.dir&#x7d;</name>
-      <description/>
-      <type>CREATE_FOLDER</type>
-      <foldername>&#x24;&#x7b;pentaho.code.tmp.dir&#x7d;</foldername>
-      <fail_of_folder_exists>N</fail_of_folder_exists>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>368</xloc>
-      <yloc>240</yloc>
-    </entry>
   </entries>
   <hops>
     <hop>
@@ -435,15 +423,6 @@
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
       <unconditional>Y</unconditional>
-    </hop>
-    <hop>
-      <from>Set Env Vars</from>
-      <to>Create &#x24;&#x7b;pentaho.code.tmp.dir&#x7d;</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
     </hop>
   </hops>
   <notepads>
