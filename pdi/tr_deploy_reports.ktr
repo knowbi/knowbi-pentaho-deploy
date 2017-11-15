@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>tr_set_environment_vars</name>
+    <name>tr_deploy_reports</name>
     <description/>
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
-    <trans_status>0</trans_status>
     <directory>&#x2f;</directory>
     <parameters>
-      <parameter>
-        <name>PRM_ENV</name>
-        <default_value/>
-        <description>The chosen environment to run the deploy job on. Available options are dev, uat.</description>
-      </parameter>
     </parameters>
     <log>
       <trans-log-table>
@@ -433,59 +427,90 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2016&#x2f;12&#x2f;16 20&#x3a;30&#x3a;05.823</created_date>
+    <created_date>2017&#x2f;11&#x2f;02 12&#x3a;43&#x3a;49.476</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2016&#x2f;12&#x2f;16 20&#x3a;30&#x3a;05.823</modified_date>
+    <modified_date>2017&#x2f;11&#x2f;02 12&#x3a;43&#x3a;49.476</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
+    <notepad>
+      <note>Use empty.xanalyzer as a placeholder to allow empty directories. </note>
+      <xloc>272</xloc>
+      <yloc>288</yloc>
+      <width>332</width>
+      <heigth>22</heigth>
+      <fontname>Sans</fontname>
+      <fontsize>7</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
   </notepads>
   <order>
     <hop>
-      <from>Read properties</from>
-      <to>Print Vars</to>
+      <from>Get Report Files</from>
+      <to>Build command</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Print Vars</from>
-      <to>Set vars</to>
+      <from>Build command</from>
+      <to>Perform publish</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Get Variables</from>
-      <to>set propsFile</to>
+      <from>Build Listfiles</from>
+      <to>Get FileList</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>set propsFile</from>
-      <to>check propsFile</to>
+      <from>Delete Files</from>
+      <to>Write to log 2</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>check propsFile</from>
-      <to>propsFile exists&#x3f;</to>
+      <from>Find ID&#x27;s</from>
+      <to>Delete Files</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>propsFile exists&#x3f;</from>
-      <to>clear propsFile</to>
+      <from>Get FileList</from>
+      <to>Parse Result</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>propsFile exists&#x3f;</from>
-      <to>set &#x24;&#x7b;V_PROPSFILE&#x7d;</to>
+      <from>Parse Result</from>
+      <to>Find ID&#x27;s</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>clear propsFile</from>
-      <to>set &#x24;&#x7b;V_PROPSFILE&#x7d;</to>
+      <from>Wait for content creation</from>
+      <to>Build Listfiles</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>empty analyzer files</from>
+      <to>Wait for content creation</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Get Report Files</from>
+      <to>empty analyzer files</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Get Variables</name>
-    <type>GetVariable</type>
+    <name>Build command</name>
+    <type>ScriptValueMod</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -494,33 +519,30 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <fields>
-      <field>
-        <name>KETTLE_HOME</name>
-        <variable>&#x24;&#x7b;KETTLE_HOME&#x7d;</variable>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xa;&#xa;var deployPath &#x3d; getVariable&#x28;&#x27;deploy.path&#x27;, &#x27;&#x27;&#x29;&#x3b; &#xa;&#xa;var serverPath &#x3d; substr&#x28;filename, deployPath.length&#x29;&#x3b; &#xa;serverPath &#x3d; substr&#x28;serverPath, 0, serverPath.length-short_filename.length&#x29;&#x3b;&#xa;&#xa;var user &#x3d; getVariable&#x28;&#x27;pentaho.user&#x27;, &#x27;&#x27;&#x29;&#x3b;&#xa;var password &#x3d; getVariable&#x28;&#x27;pentaho.pass&#x27;, &#x27;&#x27;&#x29;&#x3b; &#xa;var baseUrl &#x3d; getVariable&#x28;&#x27;pentaho.base.url&#x27;, &#x27;&#x27;&#x29;&#x3b; &#xa;&#xa;var curl &#x3d; &#x27;&#x27;&#x3b;&#xa;if&#x28;extension &#x3d;&#x3d; &#x27;prpt&#x27; &#x7c;&#x7c; extension &#x3d;&#x3d; &#x27;prpti&#x27;&#x29;&#x7b;&#xa;  curl &#x3d; &#x27;curl -v -include --user &#x27; &#x2b; user &#x2b; &#x27;&#x3a;&#x27; &#x2b; password &#x2b; &#x27; -F overwriteFile&#x3d;true -F logLevel&#x3d;ERROR -F retainOwnership&#x3d;true -F filenameOverride&#x3d;&#x27; &#x2b; short_filename &#x2b; &#x27; -F importDir&#x3d;&#x27; &#x2b; serverPath &#x2b; &#x27; -F fileUpload&#x3d;&#x40;&#x27; &#x2b; filename &#x2b; &#x27;  &#x27; &#x2b; baseUrl &#x2b; &#x27;&#x2f;api&#x2f;repo&#x2f;files&#x2f;import&#x27;&#x3b; &#xa;&#x7d;else&#x7b; &#xa;  curl &#x3d; &#x27;curl -v -X POST -H &#x22;Content-Type&#x3a;multipart&#x2f;form-data&#x22; -F fileUpload&#x3d;&#x40;&#x22;&#x27; &#x2b; filename &#x2b; &#x27;&#x22; --user &#x27; &#x2b; user &#x2b; &#x27;&#x3a;&#x27; &#x2b; password &#x2b; &#x27; -F filenameOverride&#x3d;&#x22;&#x27; &#x2b; short_filename &#x2b; &#x27;&#x22; -F overwriteFile&#x3d;true -F importPath&#x3d;&#x22;&#x27; &#x2b; serverPath &#x2b; &#x27;&#x2f;&#x27; &#x2b; short_filename &#x2b; &#x27;&#x22;  &#x27; &#x2b; baseUrl &#x2b; &#x27;&#x2f;api&#x2f;repo&#x2f;publish&#x2f;publishfile&#x27;&#x3b; &#xa;&#x7d;</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>deployPath</name>
+        <rename>deployPath</rename>
         <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
         <length>-1</length>
         <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>user_home</name>
-        <variable>&#x24;&#x7b;user.home&#x7d;</variable>
+        <replace>N</replace>
+      </field>      <field>        <name>serverPath</name>
+        <rename>serverPath</rename>
         <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
         <length>-1</length>
         <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-    </fields>
-    <cluster_schema/>
+        <replace>N</replace>
+      </field>      <field>        <name>curl</name>
+        <rename>curl</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>    </fields>    <cluster_schema/>
     <remotesteps>
       <input>
       </input>
@@ -528,111 +550,347 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>136</xloc>
-      <yloc>496</yloc>
+      <xloc>312</xloc>
+      <yloc>128</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
 
   <step>
-    <name>Print Vars</name>
-    <type>WriteToLog</type>
+    <name>Get Report Files</name>
+    <type>GetFileNames</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
       <method>none</method>
       <schema_name/>
     </partitioning>
-      <loglevel>log_level_basic</loglevel>
-      <displayHeader>Y</displayHeader>
-      <limitRows>N</limitRows>
-      <limitRowsNumber>0</limitRowsNumber>
-      <logmessage/>
-    <fields>
-      <field>
-        <name>Key</name>
-        </field>
-      <field>
-        <name>Value</name>
-        </field>
-      </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>408</xloc>
-      <yloc>192</yloc>
-      <draw>Y</draw>
-    </GUI>
-    </step>
-
-  <step>
-    <name>Read properties</name>
-    <type>PropertyInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <file_type>property</file_type>
-    <encoding>UTF-8</encoding>
-    <include>N</include>
-    <include_field/>
-    <filename_Field/>
+    <filter>
+      <filterfiletype>all_files</filterfiletype>
+    </filter>
+    <doNotFailIfNoFile>N</doNotFailIfNoFile>
     <rownum>N</rownum>
     <isaddresult>Y</isaddresult>
     <filefield>N</filefield>
     <rownum_field/>
-    <resetrownumber>N</resetrownumber>
-    <resolvevaluevariable>N</resolvevaluevariable>
-    <ini_section>N</ini_section>
-    <ini_section_field/>
-    <section/>
+    <filename_Field/>
+    <wildcard_Field/>
+    <exclude_wildcard_Field/>
+    <dynamic_include_subfolders>N</dynamic_include_subfolders>
+    <limit>0</limit>
     <file>
-      <name>&#x24;&#x7b;Internal.Transformation.Filename.Directory&#x7d;&#x2f;..&#x2f;metadata</name>
+      <name>&#x24;&#x7b;deploy.path&#x7d;</name>
+      <filemask>.&#x2a;</filemask>
       <exclude_filemask/>
-      <filemask>deploy.&#x2a;.&#x24;&#x7b;PRM_ENV&#x7d;.properties</filemask>
+      <file_required>N</file_required>
+      <include_subfolders>Y</include_subfolders>
+    </file>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>128</xloc>
+      <yloc>128</yloc>
+      <draw>Y</draw>
+    </GUI>
+    </step>
+
+  <step>
+    <name>Perform publish</name>
+    <type>ExecProcess</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <processfield>curl</processfield>
+    <resultfieldname>Result output</resultfieldname>
+    <errorfieldname>Error output</errorfieldname>
+    <exitvaluefieldname>Exit value</exitvaluefieldname>
+    <failwhennotsuccess>N</failwhennotsuccess>
+    <outputlinedelimiter>&#x24;&#x5b;0D&#x5d;</outputlinedelimiter>
+    <argumentsInFields>N</argumentsInFields>
+    <argumentFields>
+    </argumentFields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>494</xloc>
+      <yloc>128</yloc>
+      <draw>Y</draw>
+    </GUI>
+    </step>
+
+  <step>
+    <name>Build Listfiles</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xa;&#xa;var baseURL &#x3d; getVariable&#x28;&#x27;pentaho.base.url&#x27;, &#x27;&#x27;&#x29;&#x3b;&#xa;var listURL &#x3d; baseURL &#x2b; &#x27;&#x2f;api&#x2f;repo&#x2f;files&#x2f;&#x27; &#x2b; deployPath.replace&#x28;&#x2f;&#x5e;&#x3a;&#x2f;, &#x22;&#x22;&#x29;&#x2b;&#x27;&#x3a;&#x27; &#x2b; &#x27;&#x2f;children&#x27;&#xa;var deleteURL &#x3d; baseURL &#x2b; &#x27;&#x2f;api&#x2f;repo&#x2f;files&#x2f;delete&#x27;</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>baseURL</name>
+        <rename>baseURL</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>listURL</name>
+        <rename>listURL</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>deleteURL</name>
+        <rename>deleteURL</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>    </fields>    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>702</xloc>
+      <yloc>228</yloc>
+      <draw>Y</draw>
+    </GUI>
+    </step>
+
+  <step>
+    <name>Delete Files</name>
+    <type>Rest</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <applicationType>TEXT PLAIN</applicationType>
+    <method>PUT</method>
+    <url/>
+    <urlInField>Y</urlInField>
+    <dynamicMethod>N</dynamicMethod>
+    <methodFieldName/>
+    <urlField>deleteURL</urlField>
+    <bodyField>id</bodyField>
+    <httpLogin>&#x24;&#x7b;pentaho.user&#x7d;</httpLogin>
+    <httpPassword>&#x24;&#x7b;pentaho.pass&#x7d;</httpPassword>
+    <proxyHost/>
+    <proxyPort/>
+    <preemptive>Y</preemptive>
+    <trustStoreFile/>
+    <trustStorePassword>Encrypted </trustStorePassword>
+    <headers>
+      </headers>
+    <parameters>
+      </parameters>
+    <matrixParameters>
+      </matrixParameters>
+    <result>
+      <name>deleteresult</name>
+      <code>deleteresultcode</code>
+      <response_time/>
+      <response_header/>
+      </result>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1230</xloc>
+      <yloc>228</yloc>
+      <draw>Y</draw>
+    </GUI>
+    </step>
+
+  <step>
+    <name>Find ID&#x27;s</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+<send_true_to/>
+<send_false_to/>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>name</leftvalue>
+ <function>&#x3d;</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>empty.xanalyzer</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1102</xloc>
+      <yloc>228</yloc>
+      <draw>Y</draw>
+    </GUI>
+    </step>
+
+  <step>
+    <name>Get FileList</name>
+    <type>Rest</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <applicationType>XML</applicationType>
+    <method>GET</method>
+    <url/>
+    <urlInField>Y</urlInField>
+    <dynamicMethod>N</dynamicMethod>
+    <methodFieldName/>
+    <urlField>listURL</urlField>
+    <bodyField>File content</bodyField>
+    <httpLogin>&#x24;&#x7b;pentaho.user&#x7d;</httpLogin>
+    <httpPassword>&#x24;&#x7b;pentaho.pass&#x7d;</httpPassword>
+    <proxyHost/>
+    <proxyPort/>
+    <preemptive>Y</preemptive>
+    <trustStoreFile/>
+    <trustStorePassword>Encrypted </trustStorePassword>
+    <headers>
+      </headers>
+    <parameters>
+      </parameters>
+    <matrixParameters>
+      </matrixParameters>
+    <result>
+      <name>result</name>
+      <code>resultcode</code>
+      <response_time/>
+      <response_header/>
+      </result>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>846</xloc>
+      <yloc>228</yloc>
+      <draw>Y</draw>
+    </GUI>
+    </step>
+
+  <step>
+    <name>Parse Result</name>
+    <type>getXMLData</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <include>N</include>
+    <include_field/>
+    <rownum>N</rownum>
+    <addresultfile>N</addresultfile>
+    <namespaceaware>N</namespaceaware>
+    <ignorecomments>N</ignorecomments>
+    <readurl>N</readurl>
+    <validating>N</validating>
+    <usetoken>N</usetoken>
+    <IsIgnoreEmptyFile>N</IsIgnoreEmptyFile>
+    <doNotFailIfNoFile>Y</doNotFailIfNoFile>
+    <rownum_field/>
+    <encoding>UTF-8</encoding>
+    <file>
+      <name/>
+      <filemask/>
+      <exclude_filemask/>
       <file_required>N</file_required>
       <include_subfolders>N</include_subfolders>
     </file>
     <fields>
       <field>
-        <name>Key</name>
-        <column>key</column>
+        <name>id</name>
+        <xpath>id</xpath>
+        <element_type>node</element_type>
+        <result_type>valueof</result_type>
         <type>String</type>
         <format/>
-        <length>-1</length>
-        <precision>-1</precision>
         <currency/>
         <decimal/>
         <group/>
+        <length>-1</length>
+        <precision>-1</precision>
         <trim_type>none</trim_type>
         <repeat>N</repeat>
       </field>
       <field>
-        <name>Value</name>
-        <column>value</column>
+        <name>name</name>
+        <xpath>name</xpath>
+        <element_type>node</element_type>
+        <result_type>valueof</result_type>
         <type>String</type>
         <format/>
-        <length>-1</length>
-        <precision>-1</precision>
         <currency/>
         <decimal/>
         <group/>
+        <length>-1</length>
+        <precision>-1</precision>
         <trim_type>none</trim_type>
         <repeat>N</repeat>
       </field>
     </fields>
     <limit>0</limit>
+    <loopxpath>&#x2f;repositoryFileDtoes&#x2f;repositoryFileDto</loopxpath>
+    <IsInFields>Y</IsInFields>
+    <IsAFile>N</IsAFile>
+    <XmlField>result</XmlField>
+    <prunePath/>
     <shortFileFieldName/>
     <pathFieldName/>
     <hiddenFieldName/>
@@ -649,15 +907,15 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>128</xloc>
-      <yloc>192</yloc>
+      <xloc>974</xloc>
+      <yloc>228</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
 
   <step>
-    <name>Set vars</name>
-    <type>ScriptValueMod</type>
+    <name>Wait for content creation</name>
+    <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -666,44 +924,12 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#x2f;&#x2f;Script here&#xa;setVariable&#x28;Key, Value, &#x27;s&#x27;&#x29;&#x3b;</jsScript_script>
-      </jsScript>      <jsScript>        <jsScript_type>-1</jsScript_type>
-        <jsScript_name>setEnvironmentVar_Sample</jsScript_name>
-        <jsScript_script>&#x2f;&#x2f; Set a Value as Kettle&#x2f;Pentaho System Variable&#xa;&#x2f;&#x2f; &#xa;&#x2f;&#x2f; Usage&#x3a;&#xa;&#x2f;&#x2f; setEnvironmentVar&#x28;var,var&#x29;&#x3b;&#xa;&#x2f;&#x2f; 1&#x3a; String - The name of the Variable to set.&#xa;&#x2f;&#x2f; 2&#x3a; Variable - The Value which should be assigned&#xa;&#x2f;&#x2f;&#xa;&#x2f;&#x2f; 2006-11-15&#xa;&#x2f;&#x2f;&#xa;var strVarName&#x3d;&#x22;setEnvTest&#x22;&#x3b;&#xa;var strVarValue&#x3d;&#x22;123456&#x22;&#x3b;&#xa;Alert&#x28;getEnvironmentVar&#x28;strVarName&#x29;&#x29;&#x3b;&#xa;setEnvironmentVar&#x28;strVarName,strVarValue&#x29;&#x3b;&#xa;Alert&#x28;getEnvironmentVar&#x28;strVarName&#x29;&#x29;&#x3b;&#xa;strVarValue&#x3d;&#x22;654321&#x22;&#x3b;&#xa;setEnvironmentVar&#x28;strVarName,strVarValue&#x29;&#x3b;&#xa;Alert&#x28;getEnvironmentVar&#x28;strVarName&#x29;&#x29;&#x3b;</jsScript_script>
-      </jsScript>    </jsScripts>    <fields>    </fields>    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1216</xloc>
-      <yloc>192</yloc>
-      <draw>Y</draw>
-    </GUI>
-    </step>
-
-  <step>
-    <name>check propsFile</name>
-    <type>FileExists</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <filenamefield>propsFile</filenamefield>
-    <resultfieldname>propsFile_exists</resultfieldname>
-    <includefiletype>N</includefiletype>
-    <filetypefieldname/>
-    <addresultfilenames>N</addresultfilenames>
+    <steps>
+      <step>
+        <name>Perform publish</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -712,15 +938,15 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>688</xloc>
-      <yloc>496</yloc>
+      <xloc>494</xloc>
+      <yloc>228</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
 
   <step>
-    <name>clear propsFile</name>
-    <type>SetValueConstant</type>
+    <name>Write to log 2</name>
+    <type>WriteToLog</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -729,13 +955,38 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-   <usevar>N</usevar>
+      <loglevel>log_level_basic</loglevel>
+      <displayHeader>Y</displayHeader>
+      <limitRows>N</limitRows>
+      <limitRowsNumber>0</limitRowsNumber>
+      <logmessage/>
     <fields>
       <field>
-        <name>propsFile</name>
-        <value/>
-        <mask/>
-        <set_empty_string>Y</set_empty_string>
+        <name>File size</name>
+        </field>
+      <field>
+        <name>filename</name>
+        </field>
+      <field>
+        <name>path</name>
+        </field>
+      <field>
+        <name>index</name>
+        </field>
+      <field>
+        <name>deployPath</name>
+        </field>
+      <field>
+        <name>deployURL</name>
+        </field>
+      <field>
+        <name>deleteURL</name>
+        </field>
+      <field>
+        <name>deleteresult</name>
+        </field>
+      <field>
+        <name>deleteresultcode</name>
         </field>
       </fields>
     <cluster_schema/>
@@ -746,14 +997,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>944</xloc>
-      <yloc>624</yloc>
+      <xloc>1406</xloc>
+      <yloc>228</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
 
   <step>
-    <name>propsFile exists&#x3f;</name>
+    <name>empty analyzer files</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -763,15 +1014,15 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-<send_true_to>set &#x24;&#x7b;V_PROPSFILE&#x7d;</send_true_to>
-<send_false_to>clear propsFile</send_false_to>
+<send_true_to/>
+<send_false_to/>
     <compare>
 <condition>
  <negated>N</negated>
- <leftvalue>propsFile_exists</leftvalue>
+ <leftvalue>filename</leftvalue>
  <function>&#x3d;</function>
  <rightvalue/>
- <value><name>constant</name><type>Boolean</type><text>Y</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+ <value><name>constant</name><type>String</type><text>empty.xanalyzer</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
     <cluster_schema/>
     <remotesteps>
@@ -781,78 +1032,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>944</xloc>
-      <yloc>496</yloc>
-      <draw>Y</draw>
-    </GUI>
-    </step>
-
-  <step>
-    <name>set &#x24;&#x7b;V_PROPSFILE&#x7d;</name>
-    <type>SetVariable</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <field_name>propsFile</field_name>
-        <variable_name>V_PROPSFILE</variable_name>
-        <variable_type>JVM</variable_type>
-        <default_value/>
-        </field>
-      </fields>
-    <use_formatting>Y</use_formatting>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1216</xloc>
-      <yloc>496</yloc>
-      <draw>Y</draw>
-    </GUI>
-    </step>
-
-  <step>
-    <name>set propsFile</name>
-    <type>ScriptValueMod</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#x2f;&#x2f;Script here&#xa;&#xa;var propsFile &#x3d; &#x27;&#x27;&#x3b;&#xa;&#xa;if&#x28;KETTLE_HOME &#x3d;&#x3d; &#x27;&#x27; &#x7c;&#x7c; KETTLE_HOME &#x3d;&#x3d; null &#x29;&#x7b;&#xa;  propsFile &#x3d; user_home &#x2b; &#x27;&#x2f;.kettle&#x2f;kettle.properties&#x27;&#x3b; &#xa;&#x7d;else&#x7b;&#xa;  propsFile &#x3d; KETTLE_HOME &#x2b; &#x27;&#x2f;.kettle&#x2f;kettle.properties&#x27;&#x3b; &#xa;&#x7d;</jsScript_script>
-      </jsScript>    </jsScripts>    <fields>      <field>        <name>propsFile</name>
-        <rename>propsFile</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>    </fields>    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>408</xloc>
-      <yloc>496</yloc>
+      <xloc>312</xloc>
+      <yloc>228</yloc>
       <draw>Y</draw>
     </GUI>
     </step>

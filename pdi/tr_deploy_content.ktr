@@ -2,21 +2,21 @@
 <transformation>
   <info>
     <name>tr_deploy_content</name>
-    <description/>
-    <extended_description/>
-    <trans_version/>
+    <description />
+    <extended_description />
+    <trans_version />
     <trans_type>Normal</trans_type>
-    <directory>&#x2f;</directory>
+    <directory>/</directory>
     <parameters>
     </parameters>
     <log>
       <trans-log-table>
-        <connection/>
-        <schema/>
-        <table/>
-        <size_limit_lines/>
-        <interval/>
-        <timeout_days/>
+        <connection />
+        <schema />
+        <table />
+        <size_limit_lines />
+        <interval />
+        <timeout_days />
         <field>
           <id>ID_BATCH</id>
           <enabled>Y</enabled>
@@ -41,37 +41,37 @@
           <id>LINES_READ</id>
           <enabled>Y</enabled>
           <name>LINES_READ</name>
-          <subject/>
+          <subject />
         </field>
         <field>
           <id>LINES_WRITTEN</id>
           <enabled>Y</enabled>
           <name>LINES_WRITTEN</name>
-          <subject/>
+          <subject />
         </field>
         <field>
           <id>LINES_UPDATED</id>
           <enabled>Y</enabled>
           <name>LINES_UPDATED</name>
-          <subject/>
+          <subject />
         </field>
         <field>
           <id>LINES_INPUT</id>
           <enabled>Y</enabled>
           <name>LINES_INPUT</name>
-          <subject/>
+          <subject />
         </field>
         <field>
           <id>LINES_OUTPUT</id>
           <enabled>Y</enabled>
           <name>LINES_OUTPUT</name>
-          <subject/>
+          <subject />
         </field>
         <field>
           <id>LINES_REJECTED</id>
           <enabled>Y</enabled>
           <name>LINES_REJECTED</name>
-          <subject/>
+          <subject />
         </field>
         <field>
           <id>ERRORS</id>
@@ -125,11 +125,11 @@
         </field>
       </trans-log-table>
       <perf-log-table>
-        <connection/>
-        <schema/>
-        <table/>
-        <interval/>
-        <timeout_days/>
+        <connection />
+        <schema />
+        <table />
+        <interval />
+        <timeout_days />
         <field>
           <id>ID_BATCH</id>
           <enabled>Y</enabled>
@@ -207,10 +207,10 @@
         </field>
       </perf-log-table>
       <channel-log-table>
-        <connection/>
-        <schema/>
-        <table/>
-        <timeout_days/>
+        <connection />
+        <schema />
+        <table />
+        <timeout_days />
         <field>
           <id>ID_BATCH</id>
           <enabled>Y</enabled>
@@ -273,10 +273,10 @@
         </field>
       </channel-log-table>
       <step-log-table>
-        <connection/>
-        <schema/>
-        <table/>
-        <timeout_days/>
+        <connection />
+        <schema />
+        <table />
+        <timeout_days />
         <field>
           <id>ID_BATCH</id>
           <enabled>Y</enabled>
@@ -349,10 +349,10 @@
         </field>
       </step-log-table>
       <metrics-log-table>
-        <connection/>
-        <schema/>
-        <table/>
-        <timeout_days/>
+        <connection />
+        <schema />
+        <table />
+        <timeout_days />
         <field>
           <id>ID_BATCH</id>
           <enabled>Y</enabled>
@@ -401,9 +401,9 @@
       </metrics-log-table>
     </log>
     <maxdate>
-      <connection/>
-      <table/>
-      <field/>
+      <connection />
+      <table />
+      <field />
       <offset>0.0</offset>
       <maxdiff>0.0</maxdiff>
     </maxdate>
@@ -414,7 +414,7 @@
     <feedback_shown>Y</feedback_shown>
     <feedback_size>50000</feedback_size>
     <using_thread_priorities>Y</using_thread_priorities>
-    <shared_objects_file/>
+    <shared_objects_file />
     <capture_step_performance>N</capture_step_performance>
     <step_performance_capturing_delay>1000</step_performance_capturing_delay>
     <step_performance_capturing_size_limit>100</step_performance_capturing_size_limit>
@@ -427,10 +427,10 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2016&#x2f;12&#x2f;24 16&#x3a;51&#x3a;45.066</created_date>
+    <created_date>2016/12/24 16:51:45.066</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2016&#x2f;12&#x2f;24 16&#x3a;51&#x3a;45.066</modified_date>
-    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
+    <modified_date>2016/12/24 16:51:45.066</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
@@ -478,11 +478,11 @@
     </hop>
     <hop>
       <from>Parse Result</from>
-      <to>Find ID&#x27;s</to>
+      <to>Find ID's</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Find ID&#x27;s</from>
+      <from>Find ID's</from>
       <to>Delete Files</to>
       <enabled>Y</enabled>
     </hop>
@@ -495,38 +495,54 @@
   <step>
     <name>Build Listfiles</name>
     <type>ScriptValueMod</type>
-    <description/>
+    <description />
     <distribute>Y</distribute>
-    <custom_distribution/>
+    <custom_distribution />
     <copies>1</copies>
     <partitioning>
       <method>none</method>
-      <schema_name/>
+      <schema_name />
     </partitioning>
     <compatible>N</compatible>
     <optimizationLevel>9</optimizationLevel>
-    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#x2f;&#x2f;Script here&#xa;&#xa;var baseURL &#x3d; getVariable&#x28;&#x27;pentaho.base.url&#x27;, &#x27;&#x27;&#x29;&#x3b;&#xa;var listURL &#x3d; baseURL &#x2b; &#x27;&#x2f;api&#x2f;repo&#x2f;files&#x2f;&#x27; &#x2b; deployPath.replace&#x28;&#x2f;&#x5e;&#x3a;&#x2f;, &#x22;&#x22;&#x29;&#x2b;&#x27;&#x3a;&#x27; &#x2b; &#x27;&#x2f;children&#x27;&#xa;var deleteURL &#x3d; baseURL &#x2b; &#x27;&#x2f;api&#x2f;repo&#x2f;files&#x2f;delete&#x27;</jsScript_script>
-      </jsScript>    </jsScripts>    <fields>      <field>        <name>baseURL</name>
+        <jsScript_script>//Script here
+
+var baseURL = getVariable('pentaho.base.url', '');
+var listURL = baseURL + '/api/repo/files/' + deployPath.replace(/^:/, "")+':' + '/children'
+var deleteURL = baseURL + '/api/repo/files/delete'</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>baseURL</name>
         <rename>baseURL</rename>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
-      </field>      <field>        <name>listURL</name>
+      </field>
+      <field>
+        <name>listURL</name>
         <rename>listURL</rename>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
-      </field>      <field>        <name>deleteURL</name>
+      </field>
+      <field>
+        <name>deleteURL</name>
         <rename>deleteURL</rename>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
-      </field>    </fields>    <cluster_schema/>
+      </field>
+    </fields>
+    <cluster_schema />
     <remotesteps>
       <input>
       </input>
@@ -538,43 +554,63 @@
       <yloc>192</yloc>
       <draw>Y</draw>
     </GUI>
-    </step>
-
+  </step>
   <step>
     <name>Build URL</name>
     <type>ScriptValueMod</type>
-    <description/>
+    <description />
     <distribute>N</distribute>
-    <custom_distribution/>
+    <custom_distribution />
     <copies>1</copies>
     <partitioning>
       <method>none</method>
-      <schema_name/>
+      <schema_name />
     </partitioning>
     <compatible>N</compatible>
     <optimizationLevel>9</optimizationLevel>
-    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#x2f;&#x2f;Script here&#xa;&#xa;var index &#x3d; indexOf&#x28;path, &#x27;content&#x27;&#x29;&#x3b;&#xa;var deployPath &#x3d; substr&#x28;path, index&#x2b;7&#x29;&#x3b;&#xa;deployPath &#x3d; deployPath.replace&#x28;&#x2f;&#x5c;&#x5c;&#x2f;g, &#x27;&#x2f;&#x27;&#x29;&#x3b;&#xa;deployPath &#x3d; replace&#x28;deployPath, &#x27;&#x2f;&#x27;, &#x27;&#x3a;&#x27;&#x29;&#x3b;&#xa;deployPath &#x3d; replace&#x28;deployPath, &#x27; &#x27;, &#x27;&#x25;20&#x27;&#x29;&#x3b;&#xa;&#xa;var baseURL &#x3d; getVariable&#x28;&#x27;pentaho.base.url&#x27;, &#x27;&#x27;&#x29;&#x3b;&#xa;var deployURL &#x3d; baseURL &#x2b; &#x27;&#x2f;api&#x2f;repo&#x2f;files&#x2f;&#x27; &#x2b; deployPath &#x2b; &#x27;&#x3a;&#x27; &#x2b; filename</jsScript_script>
-      </jsScript>    </jsScripts>    <fields>      <field>        <name>index</name>
+        <jsScript_script>//Script here
+
+var index = indexOf(path, 'content');
+var deployPath = substr(path, index+7);
+deployPath = deployPath.replace(/\\/g, '/');
+deployPath = replace(deployPath, '/', ':');
+deployPath = replace(deployPath, ' ', '%20');
+
+var baseURL = getVariable('pentaho.base.url', '');
+var deployURL = baseURL + '/api/repo/files/' + deployPath + ':' + filename</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>index</name>
         <rename>index</rename>
         <type>Integer</type>
         <length>9</length>
         <precision>0</precision>
         <replace>N</replace>
-      </field>      <field>        <name>deployPath</name>
+      </field>
+      <field>
+        <name>deployPath</name>
         <rename>deployPath</rename>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
-      </field>      <field>        <name>deployURL</name>
+      </field>
+      <field>
+        <name>deployURL</name>
         <rename>deployURL</rename>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
-      </field>    </fields>    <cluster_schema/>
+      </field>
+    </fields>
+    <cluster_schema />
     <remotesteps>
       <input>
       </input>
@@ -586,33 +622,32 @@
       <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
-    </step>
-
+  </step>
   <step>
     <name>Delete Files</name>
     <type>Rest</type>
-    <description/>
+    <description />
     <distribute>Y</distribute>
-    <custom_distribution/>
+    <custom_distribution />
     <copies>1</copies>
     <partitioning>
       <method>none</method>
-      <schema_name/>
+      <schema_name />
     </partitioning>
     <applicationType>TEXT PLAIN</applicationType>
     <method>PUT</method>
-    <url/>
+    <url />
     <urlInField>Y</urlInField>
     <dynamicMethod>N</dynamicMethod>
-    <methodFieldName/>
+    <methodFieldName />
     <urlField>deleteURL</urlField>
     <bodyField>id</bodyField>
-    <httpLogin>&#x24;&#x7b;pentaho.user&#x7d;</httpLogin>
-    <httpPassword>&#x24;&#x7b;pentaho.pass&#x7d;</httpPassword>
-    <proxyHost/>
-    <proxyPort/>
+    <httpLogin>${pentaho.user}</httpLogin>
+    <httpPassword>${pentaho.pass}</httpPassword>
+    <proxyHost />
+    <proxyPort />
     <preemptive>Y</preemptive>
-    <trustStoreFile/>
+    <trustStoreFile />
     <trustStorePassword>Encrypted </trustStorePassword>
     <headers>
       </headers>
@@ -623,10 +658,10 @@
     <result>
       <name>deleteresult</name>
       <code>deleteresultcode</code>
-      <response_time/>
-      <response_header/>
-      </result>
-    <cluster_schema/>
+      <response_time />
+      <response_header />
+    </result>
+    <cluster_schema />
     <remotesteps>
       <input>
       </input>
@@ -638,30 +673,38 @@
       <yloc>192</yloc>
       <draw>Y</draw>
     </GUI>
-    </step>
-
+  </step>
   <step>
-    <name>Find ID&#x27;s</name>
+    <name>Find ID's</name>
     <type>FilterRows</type>
-    <description/>
+    <description />
     <distribute>Y</distribute>
-    <custom_distribution/>
+    <custom_distribution />
     <copies>1</copies>
     <partitioning>
       <method>none</method>
-      <schema_name/>
+      <schema_name />
     </partitioning>
-<send_true_to/>
-<send_false_to/>
+    <send_true_to />
+    <send_false_to />
     <compare>
-<condition>
- <negated>N</negated>
- <leftvalue>name</leftvalue>
- <function>&#x3d;</function>
- <rightvalue/>
- <value><name>constant</name><type>String</type><text>empty.xanalyzer</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+      <condition>
+        <negated>N</negated>
+        <leftvalue>name</leftvalue>
+        <function>=</function>
+        <rightvalue />
+        <value>
+          <name>constant</name>
+          <type>String</type>
+          <text>empty.xanalyzer</text>
+          <length>-1</length>
+          <precision>-1</precision>
+          <isnull>N</isnull>
+          <mask />
+        </value>
+      </condition>
     </compare>
-    <cluster_schema/>
+    <cluster_schema />
     <remotesteps>
       <input>
       </input>
@@ -673,33 +716,32 @@
       <yloc>192</yloc>
       <draw>Y</draw>
     </GUI>
-    </step>
-
+  </step>
   <step>
     <name>Get FileList</name>
     <type>Rest</type>
-    <description/>
+    <description />
     <distribute>Y</distribute>
-    <custom_distribution/>
+    <custom_distribution />
     <copies>1</copies>
     <partitioning>
       <method>none</method>
-      <schema_name/>
+      <schema_name />
     </partitioning>
     <applicationType>XML</applicationType>
     <method>GET</method>
-    <url/>
+    <url />
     <urlInField>Y</urlInField>
     <dynamicMethod>N</dynamicMethod>
-    <methodFieldName/>
+    <methodFieldName />
     <urlField>listURL</urlField>
     <bodyField>File content</bodyField>
-    <httpLogin>&#x24;&#x7b;pentaho.user&#x7d;</httpLogin>
-    <httpPassword>&#x24;&#x7b;pentaho.pass&#x7d;</httpPassword>
-    <proxyHost/>
-    <proxyPort/>
+    <httpLogin>${pentaho.user}</httpLogin>
+    <httpPassword>${pentaho.pass}</httpPassword>
+    <proxyHost />
+    <proxyPort />
     <preemptive>Y</preemptive>
-    <trustStoreFile/>
+    <trustStoreFile />
     <trustStorePassword>Encrypted </trustStorePassword>
     <headers>
       </headers>
@@ -710,10 +752,10 @@
     <result>
       <name>result</name>
       <code>resultcode</code>
-      <response_time/>
-      <response_header/>
-      </result>
-    <cluster_schema/>
+      <response_time />
+      <response_header />
+    </result>
+    <cluster_schema />
     <remotesteps>
       <input>
       </input>
@@ -725,72 +767,72 @@
       <yloc>192</yloc>
       <draw>Y</draw>
     </GUI>
-    </step>
-
+  </step>
   <step>
     <name>Load file content in memory</name>
     <type>LoadFileInput</type>
-    <description/>
+    <description />
     <distribute>Y</distribute>
-    <custom_distribution/>
+    <custom_distribution />
     <copies>1</copies>
     <partitioning>
       <method>none</method>
-      <schema_name/>
+      <schema_name />
     </partitioning>
     <include>N</include>
-    <include_field/>
+    <include_field />
     <rownum>N</rownum>
     <addresultfile>Y</addresultfile>
     <IsIgnoreEmptyFile>N</IsIgnoreEmptyFile>
-    <rownum_field/>
-    <encoding/>
+    <IsIgnoreMissingPath>N</IsIgnoreMissingPath>
+    <rownum_field />
+    <encoding />
     <file>
-      <name>&#x24;&#x7b;deploy.path&#x7d;</name>
-      <filemask>.&#x2a;</filemask>
-      <exclude_filemask/>
+      <name>${deploy.path}</name>
+      <filemask>.*</filemask>
+      <exclude_filemask>.*.prpt</exclude_filemask>
       <file_required>N</file_required>
       <include_subfolders>Y</include_subfolders>
-      </file>
+    </file>
     <fields>
       <field>
         <name>File content</name>
         <element_type>content</element_type>
         <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
+        <format />
+        <currency />
+        <decimal />
+        <group />
         <length>-1</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
         <repeat>N</repeat>
-        </field>
+      </field>
       <field>
         <name>File size</name>
         <element_type>size</element_type>
         <type>Integer</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
+        <format />
+        <currency />
+        <decimal />
+        <group />
         <length>-1</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
         <repeat>N</repeat>
-        </field>
-      </fields>
+      </field>
+    </fields>
     <limit>0</limit>
     <IsInFields>N</IsInFields>
-    <DynamicFilenameField/>
+    <DynamicFilenameField />
     <shortFileFieldName>filename</shortFileFieldName>
     <pathFieldName>path</pathFieldName>
-    <hiddenFieldName/>
-    <lastModificationTimeFieldName/>
-    <uriNameFieldName/>
-    <rootUriNameFieldName/>
-    <extensionFieldName/>
-    <cluster_schema/>
+    <hiddenFieldName />
+    <lastModificationTimeFieldName />
+    <uriNameFieldName />
+    <rootUriNameFieldName />
+    <extensionFieldName />
+    <cluster_schema />
     <remotesteps>
       <input>
       </input>
@@ -802,21 +844,20 @@
       <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
-    </step>
-
+  </step>
   <step>
     <name>Parse Result</name>
     <type>getXMLData</type>
-    <description/>
+    <description />
     <distribute>Y</distribute>
-    <custom_distribution/>
+    <custom_distribution />
     <copies>1</copies>
     <partitioning>
       <method>none</method>
-      <schema_name/>
+      <schema_name />
     </partitioning>
     <include>N</include>
-    <include_field/>
+    <include_field />
     <rownum>N</rownum>
     <addresultfile>N</addresultfile>
     <namespaceaware>N</namespaceaware>
@@ -826,12 +867,12 @@
     <usetoken>N</usetoken>
     <IsIgnoreEmptyFile>N</IsIgnoreEmptyFile>
     <doNotFailIfNoFile>Y</doNotFailIfNoFile>
-    <rownum_field/>
+    <rownum_field />
     <encoding>UTF-8</encoding>
     <file>
-      <name/>
-      <filemask/>
-      <exclude_filemask/>
+      <name />
+      <filemask />
+      <exclude_filemask />
       <file_required>N</file_required>
       <include_subfolders>N</include_subfolders>
     </file>
@@ -842,10 +883,10 @@
         <element_type>node</element_type>
         <result_type>valueof</result_type>
         <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
+        <format />
+        <currency />
+        <decimal />
+        <group />
         <length>-1</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
@@ -857,10 +898,10 @@
         <element_type>node</element_type>
         <result_type>valueof</result_type>
         <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
+        <format />
+        <currency />
+        <decimal />
+        <group />
         <length>-1</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
@@ -868,20 +909,20 @@
       </field>
     </fields>
     <limit>0</limit>
-    <loopxpath>&#x2f;repositoryFileDtoes&#x2f;repositoryFileDto</loopxpath>
+    <loopxpath>/repositoryFileDtoes/repositoryFileDto</loopxpath>
     <IsInFields>Y</IsInFields>
     <IsAFile>N</IsAFile>
     <XmlField>result</XmlField>
-    <prunePath/>
-    <shortFileFieldName/>
-    <pathFieldName/>
-    <hiddenFieldName/>
-    <lastModificationTimeFieldName/>
-    <uriNameFieldName/>
-    <rootUriNameFieldName/>
-    <extensionFieldName/>
-    <sizeFieldName/>
-    <cluster_schema/>
+    <prunePath />
+    <shortFileFieldName />
+    <pathFieldName />
+    <hiddenFieldName />
+    <lastModificationTimeFieldName />
+    <uriNameFieldName />
+    <rootUriNameFieldName />
+    <extensionFieldName />
+    <sizeFieldName />
+    <cluster_schema />
     <remotesteps>
       <input>
       </input>
@@ -893,33 +934,32 @@
       <yloc>192</yloc>
       <draw>Y</draw>
     </GUI>
-    </step>
-
+  </step>
   <step>
     <name>Publish Content</name>
     <type>Rest</type>
-    <description/>
+    <description />
     <distribute>Y</distribute>
-    <custom_distribution/>
+    <custom_distribution />
     <copies>1</copies>
     <partitioning>
       <method>none</method>
-      <schema_name/>
+      <schema_name />
     </partitioning>
     <applicationType>OCTET STREAM</applicationType>
     <method>PUT</method>
-    <url/>
+    <url />
     <urlInField>Y</urlInField>
     <dynamicMethod>N</dynamicMethod>
-    <methodFieldName/>
+    <methodFieldName />
     <urlField>deployURL</urlField>
     <bodyField>File content</bodyField>
-    <httpLogin>&#x24;&#x7b;pentaho.user&#x7d;</httpLogin>
-    <httpPassword>&#x24;&#x7b;pentaho.pass&#x7d;</httpPassword>
-    <proxyHost/>
-    <proxyPort/>
+    <httpLogin>${pentaho.user}</httpLogin>
+    <httpPassword>${pentaho.pass}</httpPassword>
+    <proxyHost />
+    <proxyPort />
     <preemptive>Y</preemptive>
-    <trustStoreFile/>
+    <trustStoreFile />
     <trustStorePassword>Encrypted </trustStorePassword>
     <headers>
       </headers>
@@ -930,10 +970,10 @@
     <result>
       <name>result</name>
       <code>resultcode</code>
-      <response_time/>
-      <response_header/>
-      </result>
-    <cluster_schema/>
+      <response_time />
+      <response_header />
+    </result>
+    <cluster_schema />
     <remotesteps>
       <input>
       </input>
@@ -945,26 +985,25 @@
       <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
-    </step>
-
+  </step>
   <step>
     <name>Wait for content creation</name>
     <type>BlockUntilStepsFinish</type>
-    <description/>
+    <description />
     <distribute>Y</distribute>
-    <custom_distribution/>
+    <custom_distribution />
     <copies>1</copies>
     <partitioning>
       <method>none</method>
-      <schema_name/>
+      <schema_name />
     </partitioning>
     <steps>
       <step>
         <name>Publish Content</name>
         <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-    <cluster_schema/>
+      </step>
+    </steps>
+    <cluster_schema />
     <remotesteps>
       <input>
       </input>
@@ -976,51 +1015,51 @@
       <yloc>192</yloc>
       <draw>Y</draw>
     </GUI>
-    </step>
-
+  </step>
   <step>
     <name>Write to log</name>
     <type>WriteToLog</type>
-    <description/>
+    <description />
     <distribute>Y</distribute>
-    <custom_distribution/>
+    <custom_distribution />
     <copies>1</copies>
     <partitioning>
       <method>none</method>
-      <schema_name/>
+      <schema_name />
     </partitioning>
-      <loglevel>log_level_basic</loglevel>
-      <displayHeader>Y</displayHeader>
-      <limitRows>N</limitRows>
-      <limitRowsNumber>0</limitRowsNumber>
-      <logmessage>user&#x3a;  &#x24;&#x7b;pentaho.user&#x7d;&#xa;password&#x3a; &#x24;&#x7b;pentaho.password&#x7d;</logmessage>
+    <loglevel>log_level_basic</loglevel>
+    <displayHeader>Y</displayHeader>
+    <limitRows>N</limitRows>
+    <limitRowsNumber>0</limitRowsNumber>
+    <logmessage>user:  ${pentaho.user}
+password: ${pentaho.password}</logmessage>
     <fields>
       <field>
         <name>File size</name>
-        </field>
+      </field>
       <field>
         <name>filename</name>
-        </field>
+      </field>
       <field>
         <name>path</name>
-        </field>
+      </field>
       <field>
         <name>index</name>
-        </field>
+      </field>
       <field>
         <name>deployPath</name>
-        </field>
+      </field>
       <field>
         <name>deployURL</name>
-        </field>
+      </field>
       <field>
         <name>result</name>
-        </field>
+      </field>
       <field>
         <name>resultcode</name>
-        </field>
-      </fields>
-    <cluster_schema/>
+      </field>
+    </fields>
+    <cluster_schema />
     <remotesteps>
       <input>
       </input>
@@ -1032,54 +1071,53 @@
       <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
-    </step>
-
+  </step>
   <step>
     <name>Write to log 2</name>
     <type>WriteToLog</type>
-    <description/>
+    <description />
     <distribute>Y</distribute>
-    <custom_distribution/>
+    <custom_distribution />
     <copies>1</copies>
     <partitioning>
       <method>none</method>
-      <schema_name/>
+      <schema_name />
     </partitioning>
-      <loglevel>log_level_basic</loglevel>
-      <displayHeader>Y</displayHeader>
-      <limitRows>N</limitRows>
-      <limitRowsNumber>0</limitRowsNumber>
-      <logmessage/>
+    <loglevel>log_level_basic</loglevel>
+    <displayHeader>Y</displayHeader>
+    <limitRows>N</limitRows>
+    <limitRowsNumber>0</limitRowsNumber>
+    <logmessage />
     <fields>
       <field>
         <name>File size</name>
-        </field>
+      </field>
       <field>
         <name>filename</name>
-        </field>
+      </field>
       <field>
         <name>path</name>
-        </field>
+      </field>
       <field>
         <name>index</name>
-        </field>
+      </field>
       <field>
         <name>deployPath</name>
-        </field>
+      </field>
       <field>
         <name>deployURL</name>
-        </field>
+      </field>
       <field>
         <name>deleteURL</name>
-        </field>
+      </field>
       <field>
         <name>deleteresult</name>
-        </field>
+      </field>
       <field>
         <name>deleteresultcode</name>
-        </field>
-      </fields>
-    <cluster_schema/>
+      </field>
+    </fields>
+    <cluster_schema />
     <remotesteps>
       <input>
       </input>
@@ -1091,30 +1129,38 @@
       <yloc>192</yloc>
       <draw>Y</draw>
     </GUI>
-    </step>
-
+  </step>
   <step>
     <name>empty analyzer files</name>
     <type>FilterRows</type>
-    <description/>
+    <description />
     <distribute>Y</distribute>
-    <custom_distribution/>
+    <custom_distribution />
     <copies>1</copies>
     <partitioning>
       <method>none</method>
-      <schema_name/>
+      <schema_name />
     </partitioning>
-<send_true_to/>
-<send_false_to/>
+    <send_true_to />
+    <send_false_to />
     <compare>
-<condition>
- <negated>N</negated>
- <leftvalue>filename</leftvalue>
- <function>&#x3d;</function>
- <rightvalue/>
- <value><name>constant</name><type>String</type><text>empty.xanalyzer</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+      <condition>
+        <negated>N</negated>
+        <leftvalue>filename</leftvalue>
+        <function>=</function>
+        <rightvalue />
+        <value>
+          <name>constant</name>
+          <type>String</type>
+          <text>empty.xanalyzer</text>
+          <length>-1</length>
+          <precision>-1</precision>
+          <isnull>N</isnull>
+          <mask />
+        </value>
+      </condition>
     </compare>
-    <cluster_schema/>
+    <cluster_schema />
     <remotesteps>
       <input>
       </input>
@@ -1126,8 +1172,7 @@
       <yloc>192</yloc>
       <draw>Y</draw>
     </GUI>
-    </step>
-
+  </step>
   <step_error_handling>
   </step_error_handling>
   <slave-step-copy-partition-distribution>
